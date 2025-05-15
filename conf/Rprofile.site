@@ -1,0 +1,13 @@
+options(
+    HTTPUserAgent = sprintf(
+        "R/%s R (%s)", getRversion(), 
+        paste(getRversion(), R.version$platform, R.version$arch, R.version$os)
+    ),
+    repos = c(CRAN = "https://packagemanager.rstudio.com/all/__linux__/jammy/latest")
+)
+
+.First = function() {
+    if (!dir.exists("~/.TinyTeX")) {
+        system2(c("/usr/local/bin/quarto", "install", "tinytex", "--no-prompt"))
+    }
+}
