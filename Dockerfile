@@ -5,15 +5,10 @@ RUN dnf install -y langpacks-en glibc-langpack-en glibc-locale-source glibc-comm
 ENV TZ=America/New_York
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 ENV QUARTO_VERSION="1.7.31"
 ENV QUARTO_DIR=/usr/local/quarto
 ENV PATH=$QUARTO_DIR/bin:$PATH
-
-
-
 
 # Core & Dev Tools
 RUN dnf install -y \
@@ -29,19 +24,21 @@ RUN dnf install -y \
     llvm \
     llvm-devel \
     htop \
-    top
+    top \
+    flexiblas-*
 
 # Quarto
 RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v$QUARTO_VERSION/quarto-$QUARTO_VERSION-linux-rhel7-amd64.tar.gz \
  && mkdir -p $QUARTO_DIR \
- && tar xvzf quarto-*-linux-rhel7-amd64.tar.gz -C $QUARTO_DIR --strip-components=1
+ && tar xvzf quarto-*-linux-rhel7-amd64.tar.gz -C $QUARTO_DIR --strip-components=1 \
+ && rm -f quarto-*-linux-rhel7-amd64.tar.gz
 
 # R Stuff
 RUN dnf copr enable -y iucar/cran \
  && dnf update -y \
  && dnf install -y --setopt='tsflags=' R \
  && dnf install -y \
-    R-flexiblas flexiblas-* \
+    R-flexiblas \
     R-CRAN-tidyverse \
     R-CRAN-devtools \
     R-CRAN-tidymodels \
@@ -50,15 +47,9 @@ RUN dnf copr enable -y iucar/cran \
     R-CRAN-rstan \
     R-CRAN-brms \
     R-CRAN-bench \
-    R-CRAN-countdown \
-    R-CRAN-repurrrsive \
-    R-CRAN-nycflights13 \
-    R-CRAN-palmerpenguins \
     R-CRAN-ggthemes \
     R-CRAN-ggrepel \
     R-CRAN-GGally \
-    R-CRAN-datasauRus \
-    R-CRAN-ggpmisc \
     R-CRAN-polite \
     R-CRAN-here \
     R-CRAN-RSQLite \
@@ -80,7 +71,8 @@ RUN dnf copr enable -y iucar/cran \
     R-CRAN-reticulate \
     R-CRAN-quarto \
     R-CRAN-chromote \
-    R-CRAN-reticulate
+    R-CRAN-reticulate \
+    R-CRAN-tidybayes
 
 # Python Stuff
 RUN dnf install -y \
@@ -100,7 +92,8 @@ RUN dnf install -y \
     statsmodels \
     patsy \
     pymc \
-    jax
+    jax \
+    numpy
 
 RUN dnf clean all \
  && rm -rf /var/cache/dnf/*
