@@ -74,6 +74,8 @@ RUN dnf copr enable -y iucar/cran \
     R-CRAN-reticulate \
     R-CRAN-tidybayes
 
+COPY conf/Rprofile.site /usr/lib64/R/etc/Rprofile.site
+
 # Python Stuff
 RUN dnf install -y \
     python3 \
@@ -94,6 +96,11 @@ RUN dnf install -y \
     pymc \
     jax \
     numpy
+
+## Julia Stuff
+
+RUN dnf install -y \
+    julia
 
 RUN dnf clean all \
  && rm -rf /var/cache/dnf/*
