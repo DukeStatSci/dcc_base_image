@@ -82,7 +82,7 @@ COPY conf/Rprofile.site /usr/lib64/R/etc/Rprofile.site
 # R: Site ENV - Add Timezone
 RUN echo "TZ='$TZ'" >> /usr/lib64/R/etc/Renviron \
  && sed -i "/^R_PLATFORM=/ c\R_PLATFORM=\${R_PLATFORM-'$DISTRO-x86_64-singularity'}" /usr/lib64/R/etc/Renviron \
- && sed -i "/^R_LIBS_USER=/ c\R_LIBS_USER=\${R_LIBS_USER-'~/R/$DISTRO-x86_64-singularity-library/$R_SVER'}" /usr/lib64/R/etc/Renviron
+ && sed -i "/^R_LIBS_USER=/ c\R_LIBS_USER=\${R_LIBS_USER-'~/R/$DISTRO-x86_64-singularity-library/$R_SVER'}" /usr/lib64/R/etc/Renviron \
  && echo "DOWNLOAD_STATIC_LIBV8='1'" >> /usr/lib64/R/etc/Renviron
 
 
