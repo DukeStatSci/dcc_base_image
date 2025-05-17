@@ -1,8 +1,11 @@
-options(repos = c(CRAN = 'https://cran.rstudio.com/'))
+options(
+  repos = c(CRAN = 'https://archive.linux.duke.edu/cran/'), 
+  download.file.method = 'libcurl'
+)
 
 if (requireNamespace("flexiblas", quietly = TRUE)) {
   flexiblas::flexiblas_switch(
   	flexiblas::flexiblas_load_backend("OPENBLAS-THREADS")
   )
+  #flexiblas::flexiblas_set_num_threads(4)
 }
-

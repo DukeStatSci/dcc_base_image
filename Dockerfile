@@ -6,6 +6,9 @@ ENV TZ=America/New_York
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
+ENV DISTRO="fedora42"
+ENV R_VERSION="4.5.0"
+ENV R_SVER="4.5"
 ENV QUARTO_VERSION="1.7.31"
 ENV QUARTO_DIR=/usr/local/quarto
 ENV PATH=$QUARTO_DIR/bin:$PATH
@@ -75,6 +78,13 @@ RUN dnf copr enable -y iucar/cran \
     R-CRAN-tidybayes
 
 COPY conf/Rprofile.site /usr/lib64/R/etc/Rprofile.site
+
+# R: Site ENV - Add Timezone
+RUN echo "TZ='$TZ'" >> /usr/lib64/R/etc/Renviron \
+ && sed -i "/^R_PLATFORM=/ c\R_PLATFORM=\${R_PLATFORM-'$DISTRO-x86_64-singularity'}" /usr/lib64/R/etc/Renviron \
+ && sed -i "/^R_LIBS_USER=/ c\R_LIBS_USER=\${R_LIBS_USER-'~/R/$DISTRO-x86_64-singularity-library/$R_SVER'}" /usr/lib64/R/etc/Renviron
+ && echo "DOWNLOAD_STATIC_LIBV8='1'" >> /usr/lib64/R/etc/Renviron
+
 
 # Python Stuff
 RUN dnf install -y \
