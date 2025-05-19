@@ -105,7 +105,11 @@ RUN dnf install -y \
     patsy \
     pymc \
     jax \
-    numpy
+    numpy \
+    numpyro \
+    blackjax \
+    nutpie \
+    cmdstanpy[all]
 
 ## Julia Stuff
 
