@@ -75,7 +75,30 @@ RUN dnf copr enable -y iucar/cran \
     R-CRAN-quarto \
     R-CRAN-chromote \
     R-CRAN-reticulate \
-    R-CRAN-tidybayes
+    R-CRAN-tidybayes \
+    R-CRAN-R2jags \
+    R-CRAN-BAS \
+    R-CRAN-spBayes \
+    R-CRAN-magick \
+    R-CRAN-gsl \
+    R-CRAN-fable \
+    R-CRAN-feasts \
+    R-CRAN-tsibbledata \
+    R-CRAN-fable.prophet \
+    R-CRAN-tsibbletalk \
+    R-CRAN-RMySQL \
+    R-CRAN-RODBC \
+    R-CRAN-RPostgres \
+    R-CRAN-RPostgreSQL \
+    R-CRAN-RSQLite \
+    R-CRAN-data.table \
+    R-CRAN-dtplyr \
+    R-CRAN-torch \
+    R-CRAN-brulee \
+    R-CRAN-luz \
+    R-CRAN-keras \
+    R-CRAN-shiny \
+    R-CRAN-bslib
 
 COPY conf/Rprofile.site /usr/lib64/R/etc/Rprofile.site
 
