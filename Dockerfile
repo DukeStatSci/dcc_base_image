@@ -30,6 +30,10 @@ RUN dnf install -y \
     top \
     flexiblas-* \
     Lmod
+    
+# Config Lmod for DCC
+RUN echo "export MODULEPATH=/opt/apps/modulefiles" > /etc/profile.d/00-modules.sh \
+ && echo "setenv MODULEPATH /opt/apps/modulefiles" > /etc/profile.d/00-modules.csh
 
 ENV MODULEPATH=/opt/apps/modulefiles
 
