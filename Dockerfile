@@ -12,6 +12,7 @@ ENV R_SVER="4.5"
 ENV QUARTO_VERSION="1.7.31"
 ENV QUARTO_DIR=/usr/local/quarto
 ENV PATH=$QUARTO_DIR/bin:$PATH
+ENV MODULEPATH=/opt/apps/modulefiles
 
 # Core & Dev Tools
 RUN dnf install -y \
@@ -28,7 +29,8 @@ RUN dnf install -y \
     llvm-devel \
     htop \
     top \
-    flexiblas-*
+    flexiblas-* \
+    Lmod
 
 # Quarto
 RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v$QUARTO_VERSION/quarto-$QUARTO_VERSION-linux-rhel7-amd64.tar.gz \
