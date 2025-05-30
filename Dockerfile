@@ -149,7 +149,7 @@ RUN dnf install -y \
 
 ## Install code-server
 
-ENV CODE_SERVER_VERSION=$(curl -s https://api.github.com/repos/coder/code-server/releases/latest | grep -oP '"tag_name": "v\K(.*)(?=")')
+ENV CODE_SERVER_VERSION="4.100.2"
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_SERVER_VERSION/code-server-$CODE_SERVER_VERSION-amd64.rpm \
  && dnf install -y code-server-$CODE_SERVER_VERSION-amd64.rpm \
  && rm -f code-server-$CODE_SERVER_VERSION-amd64.rpm
