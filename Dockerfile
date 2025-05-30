@@ -146,6 +146,45 @@ RUN dnf install -y \
 RUN dnf install -y \
     julia
 
+
+## Install code-server
+
+ENV CODE_SERVER_VERSION=$(curl -s https://api.github.com/repos/coder/code-server/releases/latest | grep -oP '"tag_name": "v\K(.*)(?=")')
+RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_SERVER_VERSION/code-server-$CODE_SERVER_VERSION-amd64.rpm \
+ && dnf install -y code-server-$CODE_SERVER_VERSION-amd64.rpm \
+ && rm -f code-server-$CODE_SERVER_VERSION-amd64.rpm
+
+## Install rstudio
+
+ENV RSTUDIO_VERSION="2025.05.0-496"
+RUN wget https://download2.rstudio.org/server/rhel9/x86_64/rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm \
+ && dnf install -y rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm \
+ && rm -f rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm
+
+
+## Install Jupyter kernels
+
+### R (ark) kernel
+
+RUN wget https://github.com/posit-dev/ark/releases/download/0.1.184/ark-0.1.184-linux-x64.zip \
+ && unzip -j "ark-*.zip" "ark" -d "/usr/local/bin"\
+ && rm -f ark-*.zip\
+ && ark --install \
+ && cp -r /root/.local/share/jupyter/kernels/ark /usr/local/share/jupyter/kernels/ \
+ && rm -rf /root/.local/
+
+### R (IR) kernel
+RUN dnf install -y R-CRAN-IRkernel \
+ && Rscript -e "IRkernel::installspec(prefix = '/usr/local')"
+
+### Bash kernel
+RUN uv pip install --system bash_kernel \
+ && JUPYTER_DATA_DIR=/usr/local/share/jupyter python3 -m bash_kernel.install
+
+### Install Julia kernel system-wide
+RUN julia -e 'using Pkg; Pkg.add("IJulia")' \
+ && JUPYTER_DATA_DIR=/usr/local/share/jupyter julia -e 'using IJulia; IJulia.installkernel("Julia")'
+
+
 RUN dnf clean all \
  && rm -rf /var/cache/dnf/*
-
