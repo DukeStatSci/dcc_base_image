@@ -7,10 +7,14 @@ ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 
 ENV DISTRO="fedora42"
-ENV R_VERSION="4.5.0"
+ENV R_VERSION="4.5.1"
 ENV R_SVER="4.5"
-ENV QUARTO_VERSION="1.7.31"
+ENV QUARTO_VERSION="1.7.32"
 ENV QUARTO_DIR=/usr/local/quarto
+
+ENV CODE_SERVER_VERSION="4.102.3"
+ENV RSTUDIO_VERSION="2025.05.1-513"
+
 ENV PATH=$QUARTO_DIR/bin:$PATH
 
 # Core & Dev Tools
@@ -149,14 +153,12 @@ RUN dnf install -y \
 
 ## Install code-server
 
-ENV CODE_SERVER_VERSION="4.100.2"
 RUN curl -fOL https://github.com/coder/code-server/releases/download/v$CODE_SERVER_VERSION/code-server-$CODE_SERVER_VERSION-amd64.rpm \
  && dnf install -y code-server-$CODE_SERVER_VERSION-amd64.rpm \
  && rm -f code-server-$CODE_SERVER_VERSION-amd64.rpm
 
 ## Install rstudio
 
-ENV RSTUDIO_VERSION="2025.05.0-496"
 RUN wget https://download2.rstudio.org/server/rhel9/x86_64/rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm \
  && dnf install -y rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm \
  && rm -f rstudio-server-rhel-${RSTUDIO_VERSION}-x86_64.rpm
